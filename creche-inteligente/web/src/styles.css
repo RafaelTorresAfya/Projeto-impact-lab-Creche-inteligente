@@ -1,0 +1,104 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+  /* Escala de espaçamento (múltiplos de 4px) — use nos componentes em vez de valores soltos */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Raio e sombra padrão dos cards de conteúdo */
+  --radius-card: 8px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  /* Paleta institucional — azul sóbrio como cor primária, tons neutros de apoio */
+  --color-primary: #2a78d6;
+  --color-primary-dark: #184f95;
+  --color-primary-bg: #eef4fc;
+
+  --color-text: #0b0b0b;
+  --color-text-secondary: #52514e;
+  --color-text-muted: #898781;
+  --color-border: #e1e0d9;
+  --color-bg-page: #f9f9f7;
+
+  --color-success: #0ca30c;
+  --color-warning: #eda100;
+  --color-warning-bg: #fff6e0;
+  --color-warning-text: #7a5a00;
+  --color-danger: #d03b3b;
+  --color-danger-bg: #fdecec;
+  --color-danger-text: #7a1414;
+
+  /* Escala tipográfica */
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+}
+
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.page-header h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text);
+}
+
+table.mat-mdc-table {
+  width: 100%;
+}
+
+/* Densidade compacta para tabelas: reduz o "peso" visual das linhas */
+.mat-mdc-table .mat-mdc-header-cell,
+.mat-mdc-table .mat-mdc-cell {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.mat-mdc-table .mat-mdc-header-row,
+.mat-mdc-table .mat-mdc-row {
+  min-height: 40px;
+  height: 40px;
+}
+
+.mat-mdc-table .mat-mdc-header-cell {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.mat-mdc-table .mat-mdc-row:hover {
+  background: var(--color-primary-bg);
+}
+
+.table-card {
+  background: #fff;
+  border-radius: var(--radius-card);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-card);
+}
+
+.filtros-row {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+  align-items: center;
+}

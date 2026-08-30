@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS convocacoes (
+  id_convocacao INT AUTO_INCREMENT PRIMARY KEY,
+  aluno_anon VARCHAR(30) NOT NULL,
+  responsavel_anon VARCHAR(30) NULL,
+  ano SMALLINT NOT NULL,
+  codigo_unidade CHAR(7) NOT NULL,
+  grupamento VARCHAR(60) NULL,
+  turno ENUM('Integral','Parcial') NULL,
+  status ENUM('fila','convocado','confirmado','matriculado','prazo_perdido','desistiu') NOT NULL DEFAULT 'fila',
+  data_convocacao DATETIME NULL,
+  prazo_confirmacao DATE NULL,
+  data_confirmacao DATETIME NULL,
+  data_matricula DATETIME NULL,
+  canal_convocacao ENUM('whatsapp','telefone','email','presencial','carta','outro') NULL,
+  observacoes TEXT NULL,
+  id_usuario_responsavel INT NOT NULL,
+  criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+  atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_usuario_responsavel) REFERENCES usuarios(id_usuario)
+);

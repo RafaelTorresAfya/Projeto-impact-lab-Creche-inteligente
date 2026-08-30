@@ -1,0 +1,65 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Unidades Escolares</h1>
+  </div>
+
+  <div class="filtros-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar por nome</mat-label>
+      <input matInput [(ngModel)]="busca" (keyup.enter)="buscar()" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>CRE</mat-label>
+      <mat-select [(ngModel)]="cre" (selectionChange)="buscar()">
+        <mat-option value="">Todas</mat-option>
+        <mat-option *ngFor="let c of cres" [value]="c">{{ c }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo</mat-label>
+      <mat-select [(ngModel)]="tipo" (selectionChange)="buscar()">
+        <mat-option value="">Todos</mat-option>
+        <mat-option *ngFor="let t of tipos" [value]="t">{{ t }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="table-card">
+    <div class="loading" *ngIf="carregando()"><mat-spinner diameter="28"></mat-spinner></div>
+
+    <table mat-table [dataSource]="unidades()" *ngIf="!carregando()">
+      <ng-container matColumnDef="codigo_unidade">
+        <th mat-header-cell *matHeaderCellDef>Código</th>
+        <td mat-cell *matCellDef="let u">{{ u.codigo_unidade }}</td>
+      </ng-container>
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let u">{{ u.nome }}</td>
+      </ng-container>
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let u">{{ u.tipo }}</td>
+      </ng-container>
+      <ng-container matColumnDef="id_cre">
+        <th mat-header-cell *matHeaderCellDef>CRE</th>
+        <td mat-cell *matCellDef="let u">{{ u.id_cre }}</td>
+      </ng-container>
+      <ng-container matColumnDef="bairro">
+        <th mat-header-cell *matHeaderCellDef>Bairro</th>
+        <td mat-cell *matCellDef="let u">{{ u.bairro }}</td>
+      </ng-container>
+      <ng-container matColumnDef="logradouro">
+        <th mat-header-cell *matHeaderCellDef>Endereço</th>
+        <td mat-cell *matCellDef="let u">{{ u.logradouro }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+    </table>
+
+    <p class="vazio" *ngIf="!carregando() && unidades().length === 0">Nenhuma unidade encontrada.</p>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+.page-header {
+  margin-bottom: 16px;
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+.vazio {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 24px 0;
+}

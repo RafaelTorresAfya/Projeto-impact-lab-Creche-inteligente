@@ -1,0 +1,104 @@
+<div class="page form-page">
+  <div class="page-header">
+    <h1>{{ idEdicao ? 'Editar planejamento' : 'Novo planejamento de vagas' }}</h1>
+  </div>
+
+  <div class="form-layout">
+    <mat-card class="form-card">
+      <form [formGroup]="form" (ngSubmit)="salvar()">
+        <div class="grid-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Ano</mat-label>
+            <mat-select formControlName="ano">
+              <mat-option *ngFor="let a of anos" [value]="a">{{ a }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Unidade escolar</mat-label>
+            <mat-select formControlName="codigo_unidade">
+              <mat-option *ngFor="let u of unidades()" [value]="u.codigo_unidade">
+                {{ u.nome }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Grupamento</mat-label>
+            <mat-select formControlName="grupamento">
+              <mat-option *ngFor="let g of grupamentos" [value]="g">{{ g }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Turno</mat-label>
+            <mat-select formControlName="turno">
+              <mat-option *ngFor="let t of turnos" [value]="t">{{ t }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Vagas planejadas</mat-label>
+            <input matInput type="number" min="0" formControlName="vagas_planejadas" />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Observação</mat-label>
+          <textarea matInput rows="3" formControlName="observacao"></textarea>
+        </mat-form-field>
+
+        <div class="acoes">
+          <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="salvando()">
+            {{ salvando() ? 'Salvando…' : 'Salvar planejamento' }}
+          </button>
+        </div>
+      </form>
+    </mat-card>
+
+    <mat-card class="fila-card">
+      <h2>
+        <mat-icon>history</mat-icon>
+        Fila do ano anterior nesta unidade
+      </h2>
+      <p class="ajuda">
+        Use este histórico para decidir quantas vagas planejar: quanto maior a fila do ano
+        passado, maior a chance de faltar vaga de novo.
+      </p>
+
+      <div class="loading" *ngIf="buscandoFila()">Carregando…</div>
+
+      <ng-container *ngIf="!buscandoFila()">
+        <div class="total-fila" *ngIf="totalFilaAnoAnterior() !== null">
+          <span class="numero">{{ totalFilaAnoAnterior() }}</span>
+          <span class="rotulo">crianças em lista de espera no ano anterior</span>
+        </div>
+
+        <table class="mini-table" *ngIf="filaAnoAnterior() as fila">
+          <thead>
+            <tr>
+              <th>Grupamento</th>
+              <th>Horário</th>
+              <th>Fila</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let f of fila">
+              <td>{{ f.grupamento }}</td>
+              <td>{{ f.horario }}</td>
+              <td>{{ f.qtd_inscricoes }}</td>
+            </tr>
+            <tr *ngIf="fila.length === 0">
+              <td colspan="3" class="vazio">Sem registros de fila para esta unidade/ano.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="dica" *ngIf="totalFilaAnoAnterior() === null">
+          Selecione uma unidade e um ano para ver a fila do ano anterior.
+        </p>
+      </ng-container>
+    </mat-card>
+  </div>
+</div>

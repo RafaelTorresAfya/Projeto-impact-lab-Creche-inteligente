@@ -1,0 +1,25 @@
+.page-header {
+  margin-bottom: 16px;
+}
+
+.form-card {
+  padding: 20px;
+  max-width: 720px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}

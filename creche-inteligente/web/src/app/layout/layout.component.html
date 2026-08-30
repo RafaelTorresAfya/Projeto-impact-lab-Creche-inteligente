@@ -1,0 +1,29 @@
+<mat-toolbar color="primary" class="toolbar">
+  <mat-icon class="brand-icon">child_care</mat-icon>
+  <span class="brand">Creche Inteligente</span>
+  <span class="spacer"></span>
+  <span class="usuario" *ngIf="usuario">{{ usuario.nome }}</span>
+  <button mat-icon-button (click)="sair()" aria-label="Sair" title="Sair">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let item of itens"
+        [routerLink]="item.rota"
+        routerLinkActive="active-link"
+      >
+        <mat-icon matListItemIcon>{{ item.icone }}</mat-icon>
+        <span matListItemTitle>{{ item.rotulo }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

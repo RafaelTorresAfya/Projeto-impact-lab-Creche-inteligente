@@ -1,0 +1,74 @@
+<div class="page form-page">
+  <div class="page-header">
+    <h1>{{ idEdicao ? 'Editar convocação' : 'Nova convocação' }}</h1>
+  </div>
+
+  <mat-card class="form-card">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="grid-2">
+        <mat-form-field appearance="outline">
+          <mat-label>Unidade escolar</mat-label>
+          <mat-select formControlName="codigo_unidade">
+            <mat-option *ngFor="let u of unidades()" [value]="u.codigo_unidade">{{ u.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Ano</mat-label>
+          <input matInput type="number" formControlName="ano" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nome da criança</mat-label>
+          <input matInput formControlName="nome_crianca" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Responsável</mat-label>
+          <input matInput formControlName="nome_responsavel" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Contato</mat-label>
+          <input matInput formControlName="contato" placeholder="(21) 90000-0000" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Grupamento</mat-label>
+          <mat-select formControlName="grupamento">
+            <mat-option *ngFor="let g of grupamentos" [value]="g">{{ g }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let s of statusOpcoes" [value]="s">{{ s }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Data da convocação</mat-label>
+          <input matInput type="date" formControlName="data_convocacao" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Prazo de resposta</mat-label>
+          <input matInput type="date" formControlName="prazo_resposta" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Observação</mat-label>
+        <textarea matInput rows="3" formControlName="observacao"></textarea>
+      </mat-form-field>
+
+      <div class="acoes">
+        <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="salvando()">
+          {{ salvando() ? 'Salvando…' : 'Salvar convocação' }}
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

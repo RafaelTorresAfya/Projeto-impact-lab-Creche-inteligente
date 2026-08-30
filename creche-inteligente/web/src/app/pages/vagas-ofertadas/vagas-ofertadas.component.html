@@ -1,0 +1,70 @@
+<div class="page">
+  <div class="page-header"><h1>Vagas Ofertadas</h1></div>
+
+  <div class="filtros-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Ano</mat-label>
+      <mat-select [(ngModel)]="ano" (selectionChange)="buscar()">
+        <mat-option [value]="''">Todos</mat-option>
+        <mat-option *ngFor="let a of anos" [value]="a">{{ a }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fonte</mat-label>
+      <mat-select [(ngModel)]="fonte" (selectionChange)="buscar()">
+        <mat-option value="">Todas</mat-option>
+        <mat-option *ngFor="let f of fontes" [value]="f">{{ f }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Código da unidade</mat-label>
+      <input matInput [(ngModel)]="codigoUnidade" (keyup.enter)="buscar()" />
+    </mat-form-field>
+  </div>
+
+  <div class="table-card">
+    <div class="loading" *ngIf="carregando()"><mat-spinner diameter="28"></mat-spinner></div>
+
+    <table mat-table [dataSource]="itens()" *ngIf="!carregando()">
+      <ng-container matColumnDef="ano">
+        <th mat-header-cell *matHeaderCellDef>Ano</th>
+        <td mat-cell *matCellDef="let v">{{ v.ano }}</td>
+      </ng-container>
+      <ng-container matColumnDef="mes_referencia">
+        <th mat-header-cell *matHeaderCellDef>Mês</th>
+        <td mat-cell *matCellDef="let v">{{ v.mes_referencia }}</td>
+      </ng-container>
+      <ng-container matColumnDef="codigo_unidade">
+        <th mat-header-cell *matHeaderCellDef>Código</th>
+        <td mat-cell *matCellDef="let v">{{ v.codigo_unidade }}</td>
+      </ng-container>
+      <ng-container matColumnDef="nome_unidade_bruto">
+        <th mat-header-cell *matHeaderCellDef>Unidade</th>
+        <td mat-cell *matCellDef="let v">{{ v.nome_unidade_bruto }}</td>
+      </ng-container>
+      <ng-container matColumnDef="fonte">
+        <th mat-header-cell *matHeaderCellDef>Fonte</th>
+        <td mat-cell *matCellDef="let v">{{ v.fonte }}</td>
+      </ng-container>
+      <ng-container matColumnDef="turno">
+        <th mat-header-cell *matHeaderCellDef>Turno</th>
+        <td mat-cell *matCellDef="let v">{{ v.turno }}</td>
+      </ng-container>
+      <ng-container matColumnDef="alunos_matriculados">
+        <th mat-header-cell *matHeaderCellDef>Matriculados</th>
+        <td mat-cell *matCellDef="let v">{{ v.alunos_matriculados }}</td>
+      </ng-container>
+      <ng-container matColumnDef="turmas">
+        <th mat-header-cell *matHeaderCellDef>Turmas</th>
+        <td mat-cell *matCellDef="let v">{{ v.turmas }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+    </table>
+
+    <p class="vazio" *ngIf="!carregando() && itens().length === 0">Nenhum registro encontrado.</p>
+  </div>
+</div>

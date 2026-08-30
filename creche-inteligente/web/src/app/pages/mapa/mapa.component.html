@@ -1,0 +1,42 @@
+<div class="page mapa-page">
+  <div class="page-header">
+    <h1>Mapa de vagas e fila</h1>
+    <mat-form-field appearance="outline" class="filtro">
+      <mat-label>Ano</mat-label>
+      <mat-select [(ngModel)]="anoSelecionado" (selectionChange)="carregarMicroareasComFila()">
+        <mat-option *ngFor="let ano of anos" [value]="ano">{{ ano }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mapa-layout">
+    <aside class="camadas">
+      <h2>Camadas</h2>
+      <mat-slide-toggle [checked]="mostrarUnidades()" (change)="onToggleUnidades($event.checked)">
+        Unidades escolares
+      </mat-slide-toggle>
+      <mat-slide-toggle [checked]="mostrarMicroareas()" (change)="onToggleMicroareas($event.checked)">
+        Microáreas (lista de espera)
+      </mat-slide-toggle>
+      <mat-slide-toggle [checked]="mostrarDominio()" (change)="onToggleDominio($event.checked)">
+        Domínio territorial
+      </mat-slide-toggle>
+      <p class="aviso-dominio" *ngIf="avisoDominio()">
+        <mat-icon>info</mat-icon>
+        Camada de terceiros — limites de domínio territorial, apenas referência.
+      </p>
+      <p class="aviso-dominio-discreto" *ngIf="!mostrarDominio()">
+        <mat-icon>lock</mat-icon>
+        Domínio territorial é um dado sensível e fica oculto por padrão.
+      </p>
+
+      <div class="legenda">
+        <h3>Lista de espera por microárea</h3>
+        <div class="escala"></div>
+        <div class="escala-labels"><span>menos</span><span>mais</span></div>
+      </div>
+    </aside>
+
+    <div class="mapa-container" #mapaEl></div>
+  </div>
+</div>
