@@ -1,0 +1,35 @@
+<div class="consulta card" [formGroup]="form">
+  <h2>Consultar inscrição</h2>
+  <label>Protocolo<input formControlName="protocolo" placeholder="2026-000001" /></label>
+  <label>CPF do responsável<input formControlName="cpf" /></label>
+  <button type="button" class="btn-primary" [disabled]="carregando()" (click)="consultar()">Consultar</button>
+
+  <div class="erro" *ngIf="erro()">{{ erro() }}</div>
+
+  <div class="status" *ngIf="status() as s">
+    <h3>Fase: {{ s.fase }}</h3>
+    <p>Pontuação total: <strong>{{ s.pontuacao_total }}</strong></p>
+    <p>Índice de alcance de contato: <strong>{{ s.indice_alcance_contato }}</strong></p>
+
+    <h4>Unidades escolhidas</h4>
+    <ul class="escolhas">
+      <li *ngFor="let e of s.escolhas" [class.recusada]="e.recusada" [class.ofertada]="e.ofertada">
+        {{ e.ordem }}º — {{ e.nome || e.codigo_unidade }}
+        <span *ngIf="e.recusada">(recusada pela família)</span>
+        <span *ngIf="e.ofertada && !e.recusada">(vaga ofertada — posição estimada {{ e.posicao_estimada }})</span>
+      </li>
+    </ul>
+
+    <div class="convocacao" *ngIf="s.convocacao as c">
+      <h4>Convocação em andamento</h4>
+      <p>Unidade: {{ c.codigo_unidade }}</p>
+      <p *ngIf="c.prazo_expirado" class="expirado">Prazo encerrado.</p>
+      <p *ngIf="!c.prazo_expirado">Prazo final: {{ c.prazo_final | date: 'dd/MM/yyyy HH:mm' }}</p>
+      <div class="acoes-convocacao">
+        <button type="button" class="btn-primary" (click)="aceitar()">Confirmar comparecimento</button>
+        <textarea [(ngModel)]="motivoRecusa" [ngModelOptions]="{standalone: true}" placeholder="Motivo da recusa (opcional)"></textarea>
+        <button type="button" class="btn-ghost" (click)="recusar()">Recusar vaga</button>
+      </div>
+    </div>
+  </div>
+</div>

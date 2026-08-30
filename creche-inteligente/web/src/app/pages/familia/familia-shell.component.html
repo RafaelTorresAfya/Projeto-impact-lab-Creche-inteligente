@@ -1,0 +1,31 @@
+<div class="govbar"><b>PREFEITURA<i>.RIO</i></b></div>
+
+<header class="portal">
+  <div class="portal-in">
+    <div class="mark">
+      <img class="brasao" src="/brasao-rio.svg" alt="Brasão da Prefeitura do Rio de Janeiro" />
+      <span class="mark-rio"><small>PREFEITURA</small><b>RIO</b></span>
+      <span class="mark-div"></span>
+      <span class="mark-sme">Educação</span>
+    </div>
+    <nav class="pnav">
+      <a routerLink="/inscricao" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Início</a>
+      <a routerLink="/inscricao/nova" routerLinkActive="active">Inscrição</a>
+      <a routerLink="/consulta-inscricao" routerLinkActive="active">Consulta inscrição</a>
+    </nav>
+  </div>
+</header>
+
+<div class="alert-proto">
+  <div>
+    <span class="chip-proto">Simulação</span>
+    Fila Única Creche — jornada da família. Unidades, filas e prazos seguem dados reais da rede, mas a
+    classificação final é sempre publicada pela SME Rio.
+  </div>
+</div>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="foot">Secretaria Municipal de Educação do Rio de Janeiro — Fila Única Creche</footer>

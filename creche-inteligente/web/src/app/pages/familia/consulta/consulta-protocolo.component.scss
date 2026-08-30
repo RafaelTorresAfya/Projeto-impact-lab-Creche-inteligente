@@ -1,0 +1,91 @@
+.card {
+  background: #fff;
+  border: 1px solid var(--rio-line);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+}
+h2 {
+  font-family: Poppins, sans-serif;
+  color: var(--rio-navy);
+  margin: 0;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--rio-navy);
+}
+input,
+textarea {
+  font: inherit;
+  padding: 9px 11px;
+  border: 1px solid var(--rio-line);
+  border-radius: 2px;
+}
+.btn-primary,
+.btn-ghost {
+  cursor: pointer;
+  font-family: Poppins, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 100px;
+  padding: 10px 22px;
+  align-self: flex-start;
+}
+.btn-primary {
+  background: var(--rio-navy);
+  color: #fff;
+  border: none;
+}
+.btn-ghost {
+  background: none;
+  border: 1.5px solid var(--rio-line);
+  color: var(--ink-2);
+}
+.erro {
+  background: var(--crit-bg);
+  color: var(--crit);
+  border: 1px solid var(--crit);
+  padding: 10px 14px;
+  font-size: 14px;
+}
+.escolhas {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.escolhas li {
+  border: 1px solid var(--rio-line);
+  padding: 8px 12px;
+  font-size: 14px;
+}
+.escolhas li.ofertada {
+  border-color: var(--rio-cyan);
+  box-shadow: inset 4px 0 0 var(--rio-cyan);
+}
+.escolhas li.recusada {
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+.convocacao {
+  border: 1px solid var(--warn);
+  background: var(--warn-bg);
+  padding: 14px;
+}
+.expirado {
+  color: var(--crit);
+  font-weight: 700;
+}
+.acoes-convocacao {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}

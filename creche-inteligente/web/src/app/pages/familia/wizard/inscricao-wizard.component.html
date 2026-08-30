@@ -1,0 +1,184 @@
+<div class="wizard">
+  <ol class="passos">
+    <li *ngFor="let p of passos; let i = index" [class.now]="i === passo()" [class.done]="i < passo()">
+      <button type="button" (click)="irParaPasso(i)">{{ i + 1 }}. {{ p }}</button>
+    </li>
+  </ol>
+
+  <div class="erro" *ngIf="erro()">{{ erro() }}</div>
+
+  <!-- Passo 1: a criança -->
+  <section *ngIf="passo() === 0" [formGroup]="criancaForm" class="card">
+    <h2>A criança</h2>
+    <label>CPF do responsável*<input formControlName="responsavel_cpf" placeholder="000.000.000-00" /></label>
+    <label>Nome completo da criança*<input formControlName="nome" /></label>
+    <label>CPF da criança (se houver)<input formControlName="cpf" /></label>
+    <label>Data de nascimento*<input type="date" formControlName="nascimento" max="2026-03-31" /></label>
+    <label>Sexo
+      <select formControlName="sexo">
+        <option value="NAO_INFORMADO">Prefiro não informar</option>
+        <option value="F">Feminino</option>
+        <option value="M">Masculino</option>
+      </select>
+    </label>
+    <label class="check"><input type="checkbox" formControlName="pcd" /> Criança com deficiência ou atraso no desenvolvimento</label>
+    <div class="acoes">
+      <button type="button" class="btn-primary" [disabled]="carregando()" (click)="enviarCrianca()">Continuar</button>
+    </div>
+  </section>
+
+  <!-- Passo 2: endereços -->
+  <section *ngIf="passo() === 1" [formGroup]="enderecosForm" class="card">
+    <h2>Endereços de referência</h2>
+    <p class="ajuda">Até três endereços, cada um com um grau de prioridade diferente.</p>
+    <div formArrayName="enderecos" class="enderecos">
+      <div *ngFor="let end of enderecosArray.controls; let i = index" [formGroupName]="i" class="endereco">
+        <label>Tipo
+          <select formControlName="tipo" [attr.disabled]="i === 0 ? true : null">
+            <option *ngFor="let t of tiposEndereco" [value]="t.valor">{{ t.rotulo }}</option>
+          </select>
+        </label>
+        <label>Prioridade
+          <select formControlName="prioridade">
+            <option value="alta">Alta</option>
+            <option value="media">Média</option>
+            <option value="baixa">Baixa</option>
+          </select>
+        </label>
+        <label>Bairro
+          <select formControlName="bairro">
+            <option value="">Selecione</option>
+            <option *ngFor="let b of bairros" [value]="b">{{ b }}</option>
+          </select>
+        </label>
+        <label>Dias por semana
+          <input type="number" min="1" max="7" formControlName="dias_semana" />
+        </label>
+        <button type="button" class="btn-ghost" *ngIf="i > 0" (click)="removerEndereco(i)">Remover</button>
+      </div>
+    </div>
+    <button type="button" class="btn-ghost" *ngIf="enderecosArray.length < 3" (click)="adicionarEndereco()">
+      + Adicionar endereço
+    </button>
+    <div class="acoes">
+      <button type="button" class="btn-primary" [disabled]="carregando()" (click)="enviarEnderecos()">Continuar</button>
+    </div>
+  </section>
+
+  <!-- Passo 3: unidades recomendadas -->
+  <section *ngIf="passo() === 2" class="card">
+    <h2>Unidades recomendadas</h2>
+    <p class="ajuda">Escolha até três, em ordem de preferência. {{ escolhasSelecionadas().length }}/3 selecionadas.</p>
+    <div class="unidades">
+      <div *ngFor="let u of recomendacoes()" class="unidade" [class.selecionada]="escolhasSelecionadas().includes(u.codigo_unidade)">
+        <div class="unidade-head">
+          <h4>{{ u.nome }}</h4>
+          <span class="chip" *ngIf="u.geo_aproximado">distância estimada</span>
+        </div>
+        <div class="unidade-info">
+          <span>{{ u.bairro }}</span>
+          <span>{{ u.distancia_km }} km</span>
+          <span>fila {{ u.fila }}</span>
+          <span class="pressao" [class]="u.nivel_pressao">pressão {{ u.nivel_pressao }}</span>
+        </div>
+        <button type="button" class="btn-ghost" (click)="alternarEscolha(u.codigo_unidade)">
+          {{ escolhasSelecionadas().includes(u.codigo_unidade) ? 'Remover' : 'Escolher' }}
+        </button>
+      </div>
+    </div>
+
+    <div [formGroup]="foraForm" class="fora">
+      <label class="check"><input type="checkbox" formControlName="ativo" /> Preciso de uma unidade fora da recomendação</label>
+      <textarea formControlName="motivo" placeholder="Explique o motivo (mín. 15 caracteres)" *ngIf="foraForm.value.ativo"></textarea>
+    </div>
+
+    <div class="acoes">
+      <button type="button" class="btn-primary" [disabled]="carregando()" (click)="enviarEscolhas()">Continuar</button>
+    </div>
+  </section>
+
+  <!-- Passo 4: comprovações -->
+  <section *ngIf="passo() === 3" class="card">
+    <h2>Comprovações</h2>
+    <button type="button" class="btn-primary" (click)="consultarBasesAutomaticas()">Consultar bases da assistência social</button>
+    <p class="pontuacao">Pontuação atual: <strong>{{ pontuacaoTotal() }}</strong></p>
+
+    <div class="criterios">
+      <div *ngFor="let c of criterios" class="criterio">
+        <label class="check">
+          <input type="checkbox" [checked]="criteriosEstado[c.chave]" (change)="toggleCriterio(c.chave)" />
+          {{ c.label }}
+        </label>
+        <input
+          type="file"
+          *ngIf="criteriosEstado[c.chave] && c.fonte === 'documento'"
+          (change)="simularUploadDocumento(c.chave, $any($event.target).files[0])"
+        />
+        <span class="status" *ngIf="documentosEstado[c.chave]">
+          {{ documentosEstado[c.chave]?.status }} (confiança {{ documentosEstado[c.chave]?.confianca }})
+        </span>
+      </div>
+    </div>
+
+    <label>Renda familiar mensal (R$)<input type="number" [(ngModel)]="rendaValor" [ngModelOptions]="{standalone: true}" /></label>
+    <label>Pessoas no domicílio<input type="number" [(ngModel)]="pessoasDomicilio" [ngModelOptions]="{standalone: true}" /></label>
+
+    <div class="acoes">
+      <button type="button" class="btn-primary" [disabled]="carregando()" (click)="avancarParaContato()">Continuar</button>
+    </div>
+  </section>
+
+  <!-- Passo 5: contato -->
+  <section *ngIf="passo() === 4" [formGroup]="contatoForm" class="card">
+    <h2>Contato da família</h2>
+    <label>Nome do contato principal*<input formControlName="nome" /></label>
+    <label>CPF*<input formControlName="cpf" /></label>
+    <label>Parentesco*<input formControlName="parentesco" placeholder="Mãe, pai, avó..." /></label>
+    <label>Telefone*<input formControlName="telefone" /></label>
+    <label class="check"><input type="checkbox" formControlName="whatsapp_ativo" /> Este número recebe WhatsApp</label>
+    <label>@ do WhatsApp (opcional)<input formControlName="arroba_whatsapp" placeholder="@usuario" /></label>
+    <label>E-mail (opcional)<input formControlName="email" /></label>
+
+    <h3>Segundo contato</h3>
+    <label>Nome*<input formControlName="nome2" /></label>
+    <label>Telefone*<input formControlName="telefone2" /></label>
+    <label>Parentesco*<input formControlName="parentesco2" /></label>
+
+    <label>Canal preferido
+      <select formControlName="canal_preferido">
+        <option value="whatsapp">WhatsApp</option>
+        <option value="telefone">Telefone</option>
+        <option value="email">E-mail</option>
+        <option value="presencial">Presencial</option>
+      </select>
+    </label>
+
+    <div class="acoes">
+      <button type="button" class="btn-primary" [disabled]="carregando()" (click)="enviarContato()">Continuar</button>
+    </div>
+  </section>
+
+  <!-- Passo 6: revisão e envio -->
+  <section *ngIf="passo() === 5" class="card">
+    <h2>Revisão e envio</h2>
+
+    <ng-container *ngIf="!protocoloGerado()">
+      <p>Pontuação total: <strong>{{ pontuacaoTotal() }}</strong></p>
+      <p *ngIf="indiceAlcance()">Índice de alcance de contato: <strong>{{ indiceAlcance()?.total }} ({{ indiceAlcance()?.faixa }})</strong></p>
+
+      <label class="check"><input type="checkbox" [(ngModel)]="lgpdAceite" [ngModelOptions]="{standalone: true}" /> Li e aceito os termos de privacidade (LGPD)</label>
+      <label class="check"><input type="checkbox" [(ngModel)]="prazoAceite" [ngModelOptions]="{standalone: true}" /> Estou ciente do prazo de 3 dias para resposta à convocação</label>
+
+      <div class="acoes">
+        <button type="button" class="btn-primary" [disabled]="carregando()" (click)="concluirInscricao()">Concluir inscrição</button>
+      </div>
+    </ng-container>
+
+    <div class="recibo" *ngIf="protocoloGerado()">
+      <h3>Inscrição enviada!</h3>
+      <p class="protocolo">{{ protocoloGerado() }}</p>
+      <p>Guarde este protocolo e o CPF do responsável para consultar o andamento a qualquer momento.</p>
+      <a routerLink="/consulta-inscricao" class="btn-primary">Consultar inscrição</a>
+    </div>
+  </section>
+</div>

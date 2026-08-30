@@ -7,6 +7,41 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent),
   },
   {
+    path: 'inscricao',
+    loadComponent: () =>
+      import('./pages/familia/familia-shell.component').then((m) => m.FamiliaShellComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/familia/landing/familia-landing.component').then(
+            (m) => m.FamiliaLandingComponent,
+          ),
+      },
+      {
+        path: 'nova',
+        loadComponent: () =>
+          import('./pages/familia/wizard/inscricao-wizard.component').then(
+            (m) => m.InscricaoWizardComponent,
+          ),
+      },
+    ],
+  },
+  {
+    path: 'consulta-inscricao',
+    loadComponent: () =>
+      import('./pages/familia/familia-shell.component').then((m) => m.FamiliaShellComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/familia/consulta/consulta-protocolo.component').then(
+            (m) => m.ConsultaProtocoloComponent,
+          ),
+      },
+    ],
+  },
+  {
     path: '',
     loadComponent: () => import('./layout/layout.component').then((m) => m.LayoutComponent),
     canActivate: [authGuard],

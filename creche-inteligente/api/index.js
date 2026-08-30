@@ -16,6 +16,8 @@ const vagasOfertadasRoutes = require('./routes/vagasOfertadasRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const planejamentoVagasRoutes = require('./routes/planejamentoVagasRoutes');
 const convocacoesRoutes = require('./routes/convocacoesRoutes');
+const inscricaoFamiliaRoutes = require('./routes/inscricaoFamiliaRoutes');
+const consultaProtocoloRoutes = require('./routes/consultaProtocoloRoutes');
 
 const app = express();
 
@@ -35,6 +37,8 @@ app.use('/api/vagas-ofertadas', vagasOfertadasRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/planejamento-vagas', planejamentoVagasRoutes);
 app.use('/api/convocacoes', convocacoesRoutes);
+app.use('/api/inscricao-familia', inscricaoFamiliaRoutes);
+app.use('/api/consulta-protocolo', consultaProtocoloRoutes);
 
 // ---- Proxy de tiles do OpenStreetMap com cache em disco ----
 const TILES_CACHE_DIR = path.join(__dirname, 'tiles-cache');

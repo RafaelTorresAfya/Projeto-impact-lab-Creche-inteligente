@@ -64,3 +64,29 @@
 .spinner {
   display: inline-block;
 }
+
+.login-familia {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border, #e0e0e0);
+  text-align: center;
+}
+
+.login-familia p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.login-familia-botoes {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.login-familia-botoes button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

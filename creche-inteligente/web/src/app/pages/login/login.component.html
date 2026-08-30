@@ -32,5 +32,19 @@
         <span *ngIf="!carregando()">Entrar</span>
       </button>
     </form>
+
+    <div class="login-familia">
+      <p>É família e quer inscrever seu filho na creche?</p>
+      <div class="login-familia-botoes">
+        <button mat-stroked-button color="primary" type="button" routerLink="/inscricao">
+          <mat-icon>child_care</mat-icon>
+          Inscreva-se aqui
+        </button>
+        <button mat-stroked-button type="button" routerLink="/consulta-inscricao">
+          <mat-icon>search</mat-icon>
+          Consultar inscrição
+        </button>
+      </div>
+    </div>
   </mat-card>
 </div>

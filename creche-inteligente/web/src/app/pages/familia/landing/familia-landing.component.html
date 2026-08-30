@@ -1,0 +1,17 @@
+<section class="hero">
+  <h1>Educação Infantil<br />Creche<br /><span>Fila Única</span></h1>
+  <p>
+    Inscreva sua criança em até três unidades de creche, em ordem de preferência, e acompanhe todo o processo
+    pelo protocolo — da inscrição à convocação.
+  </p>
+  <a class="btn-primary" routerLink="/inscricao/nova">Inscreva-se aqui</a>
+  <a class="btn-ghost" routerLink="/consulta-inscricao">Consultar inscrição</a>
+</section>
+
+<section class="faq">
+  <h2>Perguntas frequentes</h2>
+  <details *ngFor="let item of faq">
+    <summary>{{ item.pergunta }}</summary>
+    <p>{{ item.resposta }}</p>
+  </details>
+</section>

@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS inscricao_contatos (
+  id_inscricao INT PRIMARY KEY,
+  nome VARCHAR(150) NOT NULL,
+  cpf CHAR(11) NOT NULL,
+  parentesco VARCHAR(60) NOT NULL,
+  telefone CHAR(11) NULL,
+  whatsapp_ativo BOOLEAN NOT NULL DEFAULT TRUE,
+  arroba_whatsapp VARCHAR(31) NULL,
+  arroba_status ENUM('nao_verificado','verificado','invalido') NOT NULL DEFAULT 'nao_verificado',
+  email VARCHAR(150) NULL,
+  nome2 VARCHAR(150) NULL,
+  telefone2 CHAR(11) NULL,
+  whatsapp2_ativo BOOLEAN NULL,
+  parentesco2 VARCHAR(60) NULL,
+  arroba2 VARCHAR(31) NULL,
+  canal_preferido ENUM('whatsapp','telefone','email','presencial') NOT NULL DEFAULT 'whatsapp',
+  criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+  atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_inscricao) REFERENCES familias_inscricoes(id_inscricao) ON DELETE CASCADE
+);

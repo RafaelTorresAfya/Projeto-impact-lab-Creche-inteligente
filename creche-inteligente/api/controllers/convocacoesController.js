@@ -80,6 +80,7 @@ async function criar(req, res, next) {
       data_matricula,
       canal_convocacao,
       observacoes,
+      protocolo_inscricao,
     } = req.body || {};
 
     if (!aluno_anon || !ano || !codigo_unidade) {
@@ -119,6 +120,28 @@ async function criar(req, res, next) {
       'SELECT * FROM convocacoes WHERE id_convocacao = ?',
       [result.insertId]
     );
+
+    // Ponte com o modulo familia: se a SME informar o protocolo da inscricao,
+    // vincula a convocacao e avanca a fase da familia para "convocada".
+    if (protocolo_inscricao) {
+      const protocolo = String(protocolo_inscricao).trim();
+      const [atualizadas] = await pool.query(
+        "UPDATE familias_inscricoes SET id_convocacao = ?, fase = 'convocada' WHERE protocolo = ?",
+        [result.insertId, protocolo]
+      );
+      if (atualizadas.affectedRows) {
+        const [inscricaoRows] = await pool.query(
+          'SELECT id_inscricao FROM familias_inscricoes WHERE protocolo = ?',
+          [protocolo]
+        );
+        if (inscricaoRows[0]) {
+          await pool.query(
+            "INSERT INTO inscricao_historico (id_inscricao, tipo_evento, descricao) VALUES (?, 'convocada', 'Convocacao criada pela secretaria.')",
+            [inscricaoRows[0].id_inscricao]
+          );
+        }
+      }
+    }
 
     res.status(201).json({ success: true, data: rows[0] });
   } catch (err) {

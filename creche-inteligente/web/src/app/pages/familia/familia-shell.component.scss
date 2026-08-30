@@ -1,0 +1,153 @@
+// Paleta Prefeitura do Rio / Matrícula Carioca, portada do protótipo
+// prototipo-jornada-familia/inscricao-creche-prototipo.html. Escopada dentro
+// do FamiliaShellComponent (ViewEncapsulation padrao do Angular) para nao
+// vazar para o tema Material da área da secretaria.
+:host {
+  --rio-bar: #333333;
+  --rio-navy: #0f3c68;
+  --rio-navy-2: #134a80;
+  --rio-cyan: #29a9e0;
+  --rio-cyan-2: #4cbcea;
+  --rio-gray: #eeeeee;
+  --rio-gray-2: #f6f6f6;
+  --rio-line: #dcdcdc;
+  --ink: #1e2b38;
+  --ink-2: #4f6070;
+  --ink-3: #7b8896;
+  --good: #127a54;
+  --good-bg: #e4f4ee;
+  --warn: #8a5209;
+  --warn-bg: #fdf0d9;
+  --crit: #a5232a;
+  --crit-bg: #fbe5e5;
+
+  display: block;
+  font-family: 'Open Sans', 'Segoe UI', system-ui, sans-serif;
+  color: var(--ink);
+  background: #fff;
+  min-height: 100vh;
+}
+
+.govbar {
+  background: var(--rio-bar);
+  color: #fff;
+  padding: 9px 22px;
+  font-family: Poppins, 'Segoe UI', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+.govbar b i {
+  font-style: normal;
+  color: var(--rio-cyan);
+}
+
+.portal {
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+.portal-in {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brasao {
+  width: 38px;
+  height: 44px;
+  flex: none;
+}
+.mark-rio {
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--rio-navy);
+}
+.mark-rio small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  font-weight: 600;
+}
+.mark-rio b {
+  display: block;
+  font-size: 22px;
+}
+.mark-div {
+  width: 1px;
+  height: 32px;
+  background: #cfd6dc;
+}
+.mark-sme {
+  font-size: 15px;
+  color: var(--rio-navy);
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+}
+.pnav {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+.pnav a {
+  text-decoration: none;
+  padding: 8px 14px;
+  font-family: Poppins, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  border-bottom: 3px solid transparent;
+}
+.pnav a.active,
+.pnav a:hover {
+  color: var(--rio-navy);
+  border-bottom-color: var(--rio-cyan);
+}
+
+.alert-proto {
+  background: #efeafb;
+  border-bottom: 1px solid #cdbdf0;
+  color: #5b3fa8;
+  font-size: 13px;
+}
+.alert-proto div {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 8px 22px;
+}
+.chip-proto {
+  display: inline-flex;
+  background: #5b3fa8;
+  color: #fff;
+  border-radius: 2px;
+  padding: 2px 9px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 22px 60px;
+}
+
+.foot {
+  background: var(--rio-navy);
+  color: #cfe2f0;
+  margin-top: 40px;
+  padding: 24px 22px;
+  font-size: 13px;
+}
