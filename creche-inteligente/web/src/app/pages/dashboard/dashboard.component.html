@@ -32,12 +32,12 @@
       <app-kpi-card label="Total de inscrições" [value]="k.total_inscricoes" icon="assignment"></app-kpi-card>
       <app-kpi-card
         label="% em lista de espera"
-        [value]="(k.pct_lista_espera * 100).toFixed(0) + '%'"
+        [value]="k.pct_lista_espera.toFixed(0) + '%'"
         icon="hourglass_top"
       ></app-kpi-card>
       <app-kpi-card
         label="% confirmado"
-        [value]="(k.pct_confirmado * 100).toFixed(0) + '%'"
+        [value]="k.pct_confirmado.toFixed(0) + '%'"
         icon="check_circle"
       ></app-kpi-card>
     </div>

@@ -54,12 +54,26 @@ export class DashboardComponent implements OnInit {
     indexAxis: 'y',
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
+    plugins: {
+      legend: { display: true, position: 'top' },
+      tooltip: {
+        callbacks: {
+          afterBody: (items) => {
+            const i = items[0]?.dataIndex;
+            if (i === undefined) return '';
+            const r = this.rankingAtual[i];
+            return r ? [`Descompasso: ${r.descompasso}`] : '';
+          },
+        },
+      },
+    },
     scales: {
-      x: { title: { display: true, text: 'Descompasso (fila − vagas)' }, beginAtZero: true },
+      x: { title: { display: true, text: 'Crianças' }, beginAtZero: true },
       y: { title: { display: false, text: '' } },
     },
   };
+
+  private rankingAtual: DashboardKpis['ranking_unidades'] = [];
 
   ngOnInit(): void {
     this.carregar();
@@ -109,13 +123,19 @@ export class DashboardComponent implements OnInit {
     };
 
     const ranking = [...data.ranking_unidades].sort((a, b) => b.descompasso - a.descompasso).slice(0, 10);
+    this.rankingAtual = ranking;
     this.barChartData = {
-      labels: ranking.map((r) => r.nome),
+      labels: ranking.map((r) => r.nome ?? `Unidade ${r.codigo_unidade}`),
       datasets: [
         {
-          label: 'Descompasso',
-          data: ranking.map((r) => r.descompasso),
-          backgroundColor: CATEGORICAL[0],
+          label: 'Fila de espera',
+          data: ranking.map((r) => r.qtd_lista_espera),
+          backgroundColor: CATEGORICAL[1],
+        },
+        {
+          label: 'Matriculados',
+          data: ranking.map((r) => r.alunos_matriculados),
+          backgroundColor: CATEGORICAL[2],
         },
       ],
     };

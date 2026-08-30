@@ -69,6 +69,13 @@ function kpis(req, res, next) {
       ...matriculadosPorUnidade.keys(),
     ]);
 
+    // A coluna "unidade" da fila mistura dois sistemas de codigo: o codigo de 7 digitos
+    // da rede publica (bate com o catalogo 04_UnidadesEscolaresComEndereco.csv) e um
+    // codigo de 5 digitos de unidades conveniadas/parceiras (provavelmente o "Numero de
+    // Fomento" das planilhas Parceiras*.xlsx, que nao processamos ainda). Para essas
+    // parceiras nao temos nome nem matricula confiavel, entao "alunos_matriculados"
+    // ficaria sempre 0 e o descompasso pareceria falsamente que a unidade esta vazia.
+    // Por isso o ranking so entra unidades com correspondencia real no catalogo.
     const ranking_unidades = Array.from(codigosUnidade)
       .map((codigo_unidade) => {
         const qtd_lista_espera = listaEsperaPorUnidade.get(codigo_unidade) || 0;
@@ -82,6 +89,7 @@ function kpis(req, res, next) {
           descompasso: qtd_lista_espera - alunos_matriculados,
         };
       })
+      .filter((r) => r.nome !== null)
       .sort((a, b) => b.descompasso - a.descompasso)
       .slice(0, 15);
 
