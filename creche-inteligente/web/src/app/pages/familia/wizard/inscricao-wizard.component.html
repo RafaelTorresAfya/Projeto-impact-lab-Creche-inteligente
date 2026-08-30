@@ -79,7 +79,7 @@
           <span>{{ u.bairro }}</span>
           <span>{{ u.distancia_km }} km</span>
           <span>fila {{ u.fila }}</span>
-          <span class="pressao" [class]="u.nivel_pressao">pressão {{ u.nivel_pressao }}</span>
+          <span class="pressao" [class]="u.nivel_pressao">concorrência pela vaga: {{ u.nivel_pressao }}</span>
         </div>
         <button type="button" class="btn-ghost" (click)="alternarEscolha(u.codigo_unidade)">
           {{ escolhasSelecionadas().includes(u.codigo_unidade) ? 'Remover' : 'Escolher' }}
