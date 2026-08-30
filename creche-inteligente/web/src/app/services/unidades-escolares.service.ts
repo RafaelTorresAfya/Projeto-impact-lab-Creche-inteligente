@@ -30,6 +30,8 @@ export class UnidadesEscolaresService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geojson(): Observable<any> {
-    return this.http.get(`${this.base}/geojson`);
+    return this.http
+      .get<ApiResponse<any>>(`${this.base}/geojson`)
+      .pipe(map((res) => res.data));
   }
 }
